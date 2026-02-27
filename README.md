@@ -23,7 +23,7 @@ Grok is a Valour.gg bot. It is a parody of the Grok AI on X.
     <li>Channel IDs</li>
 </ul>
 
-<p>SkyBot does <strong>not</strong> store:</p>
+<p>Grok does <strong>not</strong> store:</p>
 <ul>
     <li>Message content</li>
     <li>Direct messages</li>

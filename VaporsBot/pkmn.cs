@@ -8,6 +8,8 @@ namespace Pkmn {
     {
 
         private static JsonElement? pokedex = null;
+        private static JsonElement? learnsets = null;
+        private static JsonElement? movedex = null;
 
         private static async Task<JsonElement> requestPokedex()
         {
@@ -24,9 +26,43 @@ namespace Pkmn {
                 return (JsonElement) pokedex;
             }
         }
-
-        private static async Task<String> pokedexEntry(JsonElement pokemon)
+        
+        private static async Task<JsonElement> requestLearnsets()
         {
+            if (learnsets == null) {
+                using HttpClient client = new HttpClient();
+
+                string json = await client.GetStringAsync("https://play.pokemonshowdown.com/data/learnsets.json");
+
+                JsonElement data = JsonSerializer.Deserialize<JsonElement>(json);
+                learnsets = data;
+                
+                return data;
+            } else {
+                return (JsonElement) learnsets;
+            }
+        }
+
+        private static async Task<JsonElement> requestMovedex()
+        {
+            if (movedex == null) {
+                using HttpClient client = new HttpClient();
+
+                string json = await client.GetStringAsync("https://play.pokemonshowdown.com/data/moves.json");
+
+                JsonElement data = JsonSerializer.Deserialize<JsonElement>(json);
+                movedex = data;
+                
+                return data;
+            } else {
+                return (JsonElement) movedex;
+            }
+        }
+
+        private static async Task<String> pokedexEntry(JsonElement pokemon, JsonElement learnset)
+        {
+            int gen = 9;
+
             int natdex = pokemon.GetProperty("num").GetInt32();
             string name = pokemon.GetProperty("name").GetString();
             List<string> types = GetStringList(pokemon.GetProperty("types"));
@@ -46,6 +82,25 @@ namespace Pkmn {
 
             double heightm = pokemon.GetProperty("heightm").GetDouble();
             double weightkg = pokemon.GetProperty("weightkg").GetDouble();
+
+            List<string> moves = [];
+            while (moves.Count == 0 && gen > 0) {
+                foreach (JsonProperty property in learnset.EnumerateObject())
+                {
+                    string moveName = property.Name;
+                    JsonElement moveList = property.Value;
+
+                    bool currentGen = false;
+                    foreach (string learnMethod in GetStringList(moveList))
+                    {
+                        if (learnMethod.StartsWith(gen.ToString())) currentGen = true;
+                    }
+
+                    if (currentGen) moves.Add(moveName);
+                }
+
+                gen -= 1;
+            }
 
             string output = $"{name} #{natdex}";
             if (types.Count == 1) {
@@ -69,6 +124,15 @@ namespace Pkmn {
             output += $"\n- SPD: {spd}";
             output += $"\n- SPE: {spe}";
             output += $"\n- BST: {bst}";
+            output += $"\n";
+            if (moves.Count > 0) {
+                output += $"\nLearnset: ";
+                foreach (string move in moves)
+                {
+                    output += move + ", ";
+                }
+                output = output.Substring(0, output.Length - 2);
+            }
             
             return output;
         }
@@ -76,6 +140,7 @@ namespace Pkmn {
         public static async Task<string?> pokedexEntry(string pokemonName)
         {
             JsonElement data = await requestPokedex();
+            JsonElement learnsets = await requestLearnsets();
             pokemonName = pokemonName.ToLower();
 
             // by name
@@ -86,7 +151,7 @@ namespace Pkmn {
 
                 if (key == pokemonName)
                 {
-                    return await pokedexEntry(value);
+                    return await pokedexEntry(value, learnsets.GetProperty(key).GetProperty("learnset"));
                 }
             }
 
@@ -97,12 +162,12 @@ namespace Pkmn {
 
                 if (value.GetProperty("num").GetInt32().ToString() == pokemonName)
                 {
-                    return await pokedexEntry(value);
+                    return await pokedexEntry(value, learnsets.GetProperty(key));
                 }
             }
 
             return null;
-        }
+        }        
 
         public static List<string> GetStringList(JsonElement element)
         {

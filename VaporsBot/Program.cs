@@ -64,6 +64,8 @@ client.MessageService.MessageReceived += async (message) =>
         return;
     }
 
+    string[] split = content.Split(" ");;
+
     if (planetId != null) {
         var planet = await client.PlanetService.FetchPlanetAsync(planetId.Value);
         var selfMember = await client.PlanetService.FetchMemberByUserAsync(client.Me.Id, planet.Id);
@@ -77,15 +79,26 @@ client.MessageService.MessageReceived += async (message) =>
     if (Utils.StartsWithAny(content, "v/source", "v/src"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/VaporeonMega-git/VaporsBot-valour");
-    };
+    }
 
-    if (Utils.StartsWithAny(content, "v/pokedex"))
+    if (Utils.StartsWithAny(content, "v/pokemon pokedex", "v/pkmn pokedex"))
     {
-        string[] split = content.Split(" ");
-        string pkmnName = string.Join(" ", split[1..]);
-        string output = await Pkmn.Pkmn.pokedexEntry(pkmnName);
-        await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}»\n{output}");
-    };
+        string pkmnName = string.Join(" ", split[2..]);
+        string pokedexOutput = await Pkmn.Pkmn.pokedexEntry(pkmnName);
+        await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}»\n{pokedexOutput}");
+    }
+
+    // if (Utils.StartsWithAny(content, "v/pokemon move", "v/pkmn move"))
+    // {
+    //     string moveName = string.Join(" ", split[2..]);
+    //     string pokemoveOutput = await Pkmn.Pkmn.movedexEntry(abilityName);
+    //     await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}»\n{pokemoveyOutput}");
+    // }
+
+    // if (Utils.StartsWithAny(content, "v/sayhitovictor"))
+    // {
+    //     await Utils.SendReplyAsync(channelCache, channelId, $"clanker/meow/bot/native/roadmap");
+    // }
 };
 
 Console.WriteLine("Listening for messages...");

@@ -1,7 +1,7 @@
 using System.Globalization;
 using Valour.Sdk.Models;
 
-namespace VaporsBot
+namespace Grok
 {
     public static class Utils
     {

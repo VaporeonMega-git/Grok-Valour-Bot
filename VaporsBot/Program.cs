@@ -23,8 +23,8 @@ if (!loginResult.Success)
     return;
 }
 
-// await client.PlanetService.JoinPlanetAsync(42061742971289601, "KtbJqK9r");
-// await client.PlanetService.JoinPlanetAsync(12215159187308544);
+// await client.PlanetService.JoinPlanetAsync(42061742971289601, "");
+await client.PlanetService.JoinPlanetAsync(12215159187308544);
 // await client.PlanetService.LeavePlanetAsync(await client.PlanetService.FetchPlanetAsync(12215159187308544));
 
 await client.BotService.JoinAllChannelsAsync();
@@ -67,35 +67,16 @@ client.MessageService.MessageReceived += async (message) =>
         var planet = await client.PlanetService.FetchPlanetAsync(planetId.Value);
         var selfMember = await client.PlanetService.FetchMemberByUserAsync(client.Me.Id, planet.Id);
 
-        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "»"))
-        {
-            var responses = new Dictionary<string, int>
-            {
-                { "yeah", 10000 },
-                { "nah", 10000 },
-                { "probably", 10000 },
-                { "outlook not good", 10000 },
-                { "maybe", 10000 },
-                { "i doubt it", 10000 },
-                { "for sure", 10000 },
-                { "if so i'd kms", 10 },
-                { "if not i'd kms", 10 },
-                { "there's probably like a 67% chance", 67},
-                { "oh my god do you ever shut up", 10 },
-                { "i literally could not care less", 500 },
-                { "ohhh elon~ I- Oh, didn't see you there, user. Pretend you saw nothing.", 1},
-                { "who cares", 500 }
-            };
-
-            var reply = $"«@m-{member.Id}» " + Utils.RandomString(responses);
-            await Utils.SendReplyAsync(channelCache, channelId, reply);
-        }
-
-        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "» github", "«@m-" + selfMember.Id.ToString() + "»  github"))
-        {
-            await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/VaporeonMega-git/Grok-Valour-Bot");
-        };
+        // if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "» github", "«@m-" + selfMember.Id.ToString() + "»  github"))
+        // {
+        //     await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/VaporeonMega-git/VaporsBot-valour");
+        // };
     }
+
+    if (Utils.StartsWithAny(content, "v/source", "v/src"))
+    {
+        await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/VaporeonMega-git/VaporsBot-valour");
+    };
 };
 
 Console.WriteLine("Listening for messages...");

@@ -2,10 +2,10 @@
 <html lang="en">
 <body>
 
-<h1>Grok</h1>
+<h1>VaporsBot</h1>
 
 <p>
-Grok is a Valour.gg bot. It is a parody of the Grok AI on X.
+VaporsBot is a Valour.gg bot.
 </p>
 
 <h2>Features</h2>
@@ -32,8 +32,8 @@ Grok is a Valour.gg bot. It is a parody of the Grok AI on X.
 
 <p>
 Full privacy policy:<br>
-<a href="https://github.com/VaporeonMega-git/Grok-Valour-Bot/blob/main/PRIVACY.md">
-https://github.com/VaporeonMega-git/Grok-Valour-Bot/blob/main/PRIVACY.md
+<a href="https://github.com/VaporeonMega-git/VaporsBot-valour/blob/main/PRIVACY.md">
+https://github.com/VaporeonMega-git/VaporsBot-valour/blob/main/PRIVACY.md
 </a>
 </p>
 
@@ -45,8 +45,8 @@ This project is licensed under the
 
 <p>
 See the LICENSE file for details:<br>
-<a href="https://github.com/VaporeonMega-git/Grok-Valour-Bot/blob/main/LICENSE">
-https://github.com/VaporeonMega-git/Grok-Valour-Bot/blob/main/LICENSE
+<a href="https://github.com/VaporeonMega-git/VaporsBot-valour/blob/main/LICENSE">
+https://github.com/VaporeonMega-git/VaporsBot-valour/blob/main/LICENSE
 </a>
 </p>
 
@@ -59,13 +59,13 @@ available under the same license.
 <h2>Installation</h2>
 Fork this Repository
 <pre><code>git clone the fork
-cd Grok-Valour-Bot/Grok
+cd VaporsBot-valour/Grok
 dotnet restore
 </code></pre>
 
 <p>
 All required NuGet packages will be installed automatically using the
-provided <code>SkyBot.csproj</code> file.
+provided <code>VaporsBot.csproj</code> file.
 </p>
 
 <h2>Configuration</h2>
@@ -103,7 +103,7 @@ contributions will be licensed under AGPL-3.0.
 
 <h2>Credits</h2>
 <p>
-Code from SkyJoshua's SkyBot was used. You can find SkyBot at <a href="https://github.com/SkyJoshua/SkyBot">
+Code to cache channels from SkyJoshua's SkyBot was used. You can find SkyBot at <a href="https://github.com/SkyJoshua/SkyBot">
 https://github.com/SkyJoshua/SkyBot
 </a>
 </p>

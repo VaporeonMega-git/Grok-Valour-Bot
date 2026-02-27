@@ -62,10 +62,16 @@ client.MessageService.MessageReceived += async (message) =>
     if (bannedUserIDs.Contains(message.AuthorUserId)) {
         return;
     }
-
+    
     if (planetId != null) {
         var planet = await client.PlanetService.FetchPlanetAsync(planetId.Value);
         var selfMember = await client.PlanetService.FetchMemberByUserAsync(client.Me.Id, planet.Id);
+
+        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "» github", "«@m-" + selfMember.Id.ToString() + "»  github"))
+        {
+            await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/VaporeonMega-git/Grok-Valour-Bot");
+            return;
+        };
 
         if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "»"))
         {
@@ -90,11 +96,6 @@ client.MessageService.MessageReceived += async (message) =>
             var reply = $"«@m-{member.Id}» " + Utils.RandomString(responses);
             await Utils.SendReplyAsync(channelCache, channelId, reply);
         }
-
-        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "» github", "«@m-" + selfMember.Id.ToString() + "»  github"))
-        {
-            await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/VaporeonMega-git/Grok-Valour-Bot");
-        };
     }
 };
 

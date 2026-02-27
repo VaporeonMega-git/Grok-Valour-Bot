@@ -67,7 +67,7 @@ client.MessageService.MessageReceived += async (message) =>
         var planet = await client.PlanetService.FetchPlanetAsync(planetId.Value);
         var selfMember = await client.PlanetService.FetchMemberByUserAsync(client.Me.Id, planet.Id);
 
-        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "» is this", "«@m-" + selfMember.Id.ToString() + "»  is this"))
+        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "» is", "«@m-" + selfMember.Id.ToString() + "»  is"))
         {
             var responses = new Dictionary<string, int>
             {
@@ -78,8 +78,9 @@ client.MessageService.MessageReceived += async (message) =>
                 { "maybe", 10000 },
                 { "i doubt it", 10000 },
                 { "for sure", 10000 },
-                { "if so i'd kms", 1 },
-                { "if not i'd kms", 1 }
+                { "if so i'd kms", 10 },
+                { "if not i'd kms", 10 },
+                { "there's probably like a 67% chance", 67}
             };
 
             var reply = $"«@m-{member.Id}» " + Utils.RandomString(responses);

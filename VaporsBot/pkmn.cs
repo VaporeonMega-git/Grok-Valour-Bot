@@ -102,6 +102,8 @@ namespace Pkmn {
                 gen -= 1;
             }
 
+            gen += 1;
+
             string output = $"{name} #{natdex}";
             if (types.Count == 1) {
                 output += $"\nType: {types[0]}";
@@ -126,7 +128,7 @@ namespace Pkmn {
             output += $"\n- BST: {bst}";
             output += $"\n";
             if (moves.Count > 0) {
-                output += $"\nLearnset: ";
+                output += $"\nGen {gen} Learnset: ";
                 foreach (string move in moves)
                 {
                     output += move + ", ";

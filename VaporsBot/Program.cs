@@ -1,7 +1,8 @@
 ﻿using Valour.Sdk.Client;
 using Valour.Sdk.Models;
 using DotNetEnv;
-using Grok;
+using VaporsBot;
+using Pkmn;
 
 Env.Load();
 
@@ -24,12 +25,12 @@ if (!loginResult.Success)
 }
 
 // await client.PlanetService.JoinPlanetAsync(42061742971289601, "");
-await client.PlanetService.JoinPlanetAsync(12215159187308544);
+// await client.PlanetService.JoinPlanetAsync(12215159187308544);
 // await client.PlanetService.LeavePlanetAsync(await client.PlanetService.FetchPlanetAsync(12215159187308544));
 
-await client.BotService.JoinAllChannelsAsync();
-
 var channelCache = new Dictionary<long, Channel>();
+
+await client.BotService.JoinAllChannelsAsync();
 
 foreach (var planet in client.PlanetService.JoinedPlanets)
 {
@@ -76,6 +77,14 @@ client.MessageService.MessageReceived += async (message) =>
     if (Utils.StartsWithAny(content, "v/source", "v/src"))
     {
         await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}» You can see my source code here: https://github.com/VaporeonMega-git/VaporsBot-valour");
+    };
+
+    if (Utils.StartsWithAny(content, "v/pokedex"))
+    {
+        string[] split = content.Split(" ");
+        string pkmnName = string.Join(" ", split[1..]);
+        string output = await Pkmn.Pkmn.pokedexEntry(pkmnName);
+        await Utils.SendReplyAsync(channelCache, channelId, $"«@m-{member.Id}»\n{output}");
     };
 };
 

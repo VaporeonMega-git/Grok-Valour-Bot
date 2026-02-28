@@ -43,7 +43,7 @@ foreach (var planet in client.PlanetService.JoinedPlanets)
 Console.WriteLine($"Logged in as {client.Me.Name} (ID: {client.Me.Id})");
 
 var bannedUserIDs = new List<long> {};
-var bannedChannelIDs = new List<long> {12215159187308546};
+var bannedChannelIDs = new List<long> {12215159187308546}; // Valour Central #general
 
 client.MessageService.MessageReceived += async (message) =>
 {

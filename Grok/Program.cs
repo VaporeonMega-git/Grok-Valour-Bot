@@ -43,6 +43,7 @@ foreach (var planet in client.PlanetService.JoinedPlanets)
 Console.WriteLine($"Logged in as {client.Me.Name} (ID: {client.Me.Id})");
 
 var bannedUserIDs = new List<long> {};
+var bannedChannelIDs = new List<long> {12215159187308546};
 
 client.MessageService.MessageReceived += async (message) =>
 {
@@ -73,7 +74,7 @@ client.MessageService.MessageReceived += async (message) =>
             return;
         };
 
-        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "»"))
+        if (Utils.StartsWithAny(content, "«@m-" + selfMember.Id.ToString() + "»") && !bannedChannelIDs.Contains(channelId))
         {
             var responses = new Dictionary<string, int>
             {
